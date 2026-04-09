@@ -24,6 +24,7 @@ pipeline {
                 -Dsonar.sources=. \
                 -Dsonar.host.url=http://host.docker.internal:9000 \
                 -Dsonar.login=$SONAR_TOKEN
+                -Dsonar.scm.provider=git
                 '''
             }
         }
