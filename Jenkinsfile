@@ -57,5 +57,16 @@ pipeline {
                 '''
             }
         }
+
+        stage('Store Hash in Blockchain') {
+            steps {
+                sh '''
+                HASH=$(cat ipfs_output.txt | awk '{print $2}')
+                echo "Storing hash: $HASH"
+
+                node storeHash.js $HASH
+                '''
+            }
+        }
     }
 }
