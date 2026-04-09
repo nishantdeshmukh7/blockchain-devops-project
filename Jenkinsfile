@@ -13,19 +13,17 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                sh '''
-                docker run --rm \
-                -e SONAR_HOST_URL=http://host.docker.internal:9000 \
-                -e SONAR_LOGIN=$SONAR_TOKEN \
-                -v $(pwd):/usr/src \
-                sonarsource/sonar-scanner-cli \
-                -Dsonar.projectKey=blockchain-devops-project \
-                -Dsonar.sources=.
-                '''
-            }
-        }
+ stage('SonarQube Analysis') {
+    steps {
+        sh '''
+        docker run --rm \
+        -e SONAR_HOST_URL=http://host.docker.internal:9000 \
+        -v $(pwd):/usr/src \
+        sonarsource/sonar-scanner-cli \
+        -Dsonar.login=$SONAR_TOKEN
+        '''
+    }
+}
 
         stage('Build Docker Image') {
             steps {
