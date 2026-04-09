@@ -13,20 +13,20 @@ pipeline {
             }
         }
 
-stage('SonarQube Analysis') {
-    steps {
-        sh '''
-        docker run --rm \
-        -v $(pwd):/usr/src \
-        sonarsource/sonar-scanner-cli \
-        -Dsonar.projectKey=blockchain-devops-project \
-        -Dsonar.projectName=blockchain-devops-project \
-        -Dsonar.sources=. \
-        -Dsonar.host.url=http://host.docker.internal:9000 \
-        -Dsonar.login=$SONAR_TOKEN
-        '''
-    }
-}
+        stage('SonarQube Analysis') {
+            steps {
+                sh '''
+                docker run --rm \
+                -v $(pwd):/usr/src \
+                sonarsource/sonar-scanner-cli \
+                -Dsonar.projectKey=blockchain-devops-project \
+                -Dsonar.projectName=blockchain-devops-project \
+                -Dsonar.sources=. \
+                -Dsonar.host.url=http://host.docker.internal:9000 \
+                -Dsonar.login=$SONAR_TOKEN
+                '''
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -43,19 +43,19 @@ stage('SonarQube Analysis') {
                 '''
             }
         }
-    }
-}
 
-stage('Upload to IPFS') {
-    steps {
-        sh '''
-        echo "Uploading artifact to IPFS..."
+        stage('Upload to IPFS') {
+            steps {
+                sh '''
+                echo "Uploading artifact to IPFS..."
 
-        docker exec ipfs sh -c "echo DevOpsArtifact > /data/artifact.txt"
-        docker exec ipfs ipfs add /data/artifact.txt > ipfs_output.txt
+                docker exec ipfs sh -c "echo DevOpsArtifact > /data/artifact.txt"
+                docker exec ipfs ipfs add /data/artifact.txt > ipfs_output.txt
 
-        echo "IPFS HASH:"
-        cat ipfs_output.txt
-        '''
+                echo "IPFS HASH:"
+                cat ipfs_output.txt
+                '''
+            }
+        }
     }
 }
