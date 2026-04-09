@@ -13,14 +13,16 @@ pipeline {
             }
         }
 
- stage('SonarQube Analysis') {
+stage('SonarQube Analysis') {
     steps {
         sh '''
         docker run --rm \
-        -e SONAR_HOST_URL=http://host.docker.internal:9000 \
         -v $(pwd):/usr/src \
         sonarsource/sonar-scanner-cli \
-        -Dproject.settings=sonar-project.properties \
+        -Dsonar.projectKey=blockchain-devops-project \
+        -Dsonar.projectName=blockchain-devops-project \
+        -Dsonar.sources=. \
+        -Dsonar.host.url=http://host.docker.internal:9000 \
         -Dsonar.login=$SONAR_TOKEN
         '''
     }
