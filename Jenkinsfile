@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SONAR_TOKEN = 'squ_8f24d24e7244fd138ddc4c842a33fd910f764992'
+    }
+
     stages {
 
         stage('Clone') {
@@ -9,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Install') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
@@ -20,7 +24,7 @@ pipeline {
                 sh '''
                 docker run --rm \
                 -e SONAR_HOST_URL=http://host.docker.internal:9000 \
-                -e SONAR_LOGIN=YOUR_TOKEN \
+                -e SONAR_LOGIN=$SONAR_TOKEN \
                 -v $(pwd):/usr/src \
                 sonarsource/sonar-scanner-cli \
                 -Dsonar.projectKey=blockchain-devops-project \
