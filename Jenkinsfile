@@ -45,3 +45,17 @@ stage('SonarQube Analysis') {
         }
     }
 }
+
+stage('Upload to IPFS') {
+    steps {
+        sh '''
+        echo "Uploading artifact to IPFS..."
+
+        docker exec ipfs sh -c "echo DevOpsArtifact > /data/artifact.txt"
+        docker exec ipfs ipfs add /data/artifact.txt > ipfs_output.txt
+
+        echo "IPFS HASH:"
+        cat ipfs_output.txt
+        '''
+    }
+}
