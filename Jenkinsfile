@@ -22,8 +22,9 @@ pipeline {
                 -Dsonar.projectKey=blockchain-devops-project \
                 -Dsonar.projectName=blockchain-devops-project \
                 -Dsonar.sources=. \
+                -Dsonar.inclusions=**/*.js \
                 -Dsonar.host.url=http://host.docker.internal:9000 \
-                -Dsonar.login=$SONAR_TOKEN
+                -Dsonar.login=$SONAR_TOKEN \
                 -Dsonar.scm.provider=git
                 '''
             }
