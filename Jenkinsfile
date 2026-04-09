@@ -20,6 +20,7 @@ pipeline {
         -e SONAR_HOST_URL=http://host.docker.internal:9000 \
         -v $(pwd):/usr/src \
         sonarsource/sonar-scanner-cli \
+        -Dproject.settings=sonar-project.properties \
         -Dsonar.login=$SONAR_TOKEN
         '''
     }
